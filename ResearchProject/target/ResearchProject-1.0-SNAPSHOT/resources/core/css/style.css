@@ -1,0 +1,152 @@
+/* 
+    Document   : style
+    Created on : Jun 27, 2015, 4:33:03 PM
+    Author     : Administrator
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.select select:disabled {
+    border-color: #BDBDBD;
+    background: #eee;
+    color: #6d6d6d;
+}
+
+.text_colornormal{
+    margin: 20px;
+    font-size: 25px;
+    font-weight:600;
+}
+.text_coloryellow{
+    margin: 20px;
+    font-size: 25px;
+    font-weight:600;
+    color: #f0d64e;
+}
+.text_coloramber{
+    margin: 20px;
+    font-size: 25px;
+    font-weight:600;
+    color: #f0ad4e;
+}
+.text_colororange{
+    margin: 20px;
+    font-size: 25px;
+    font-weight:600;
+    color: orange;
+}
+
+.text_colorred{
+    margin: 20px;
+    font-size: 25px;
+    font-weight:600;
+    color: red;
+}
+.open_ticket{
+    background-color:#428bca; 
+}
+.inprogress_ticket{
+    background-color: #5cb85c; 
+}
+.new_enterns{
+    background-color: #f0ad4e; 
+}
+.total_outstanding{
+    background-color: #d9534f ; 
+}
+
+.open_ticket_footer{
+    border: 1px solid #428bca;
+    color: #428bca;
+
+}
+.inprogress_ticket_footer{
+    border: 1px solid #5cb85c; 
+    color: #5cb85c; 
+}
+.new_enterns_footer{
+    border: 1px solid #f0ad4e; 
+    color: #f0ad4e; 
+}
+.total_outstanding_footer{
+    border: 1px solid #d9534f ; 
+    color: #d9534f ; 
+}
+.icons_size{
+    color: #fff;  
+}
+.count_w{
+    color: #fff;
+    font-size: 35px;
+    font-weight:bold;
+} 
+.count_w_2{
+    font-size: 14px;
+    color: #fff;
+    padding:0;
+    margin:0;
+}
+
+.icons_1{
+    color: #428bca;
+}
+.icons_2{
+    color: #5cb85c; 
+}
+.icons_3{
+    color: #f0ad4e; 
+}
+.icons_4{
+    color: #d9534f ; 
+}
+
+.smart-form select.input-sm {
+    height: 32px; 
+    line-height: 15px;
+    font-size: 12px;
+}
+
+.smart-form .state-error em {
+    color: red;
+    font-style: italic;
+    font-family: "Open Sans",Arial,Helvetica,Sans-Serif;
+    font-size: 13px;
+}
+
+.smart-form .state-error i {
+    background: #FFF0F0;
+    box-shadow: 0 0 0 9px #FFF0F0;
+}
+
+.smart-form .state-error select {
+    margin-bottom: 3px;
+}
+
+.checkbox {
+    margin-top: 6px;
+}
+
+a:focus, a:hover {
+    color: #214e75;
+    text-decoration: none;
+}
+
+/*Software / Payment Device Ticket Workflow*/
+
+.sub_title {
+    padding-bottom: 30px;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+.select2-container-multi .select2-search-choice-close {
+    padding: 0px !important;
+    text-align: center !important;
+}
+
+.select2-search-choice-close:before {
+    position: relative;
+    top: -3px;
+}
