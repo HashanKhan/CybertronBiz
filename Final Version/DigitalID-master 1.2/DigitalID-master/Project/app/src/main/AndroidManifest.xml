@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.asus.nfc_qr_app">
-
-    <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="27" />
+    package="com.cybertronbiz.university.student_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -30,30 +26,59 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Navigation"
+            android:name="com.cybertronbiz.university.student_app.Navigation"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserActivity" />
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".MainActivity3" />
-
-        <activity android:name=".Prediction.Main2Activity_Prediction"
-            android:label="Performace Prediction"/>
-        <activity android:name=".Prediction.MainActivity_Prediction" />
         <activity
-            android:name=".Authentication.FaceMicrosoftSample"
+            android:name="com.cybertronbiz.university.student_app.UserActivity"
+            android:label="Admin Panel"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.cybertronbiz.university.student_app.WriterActivity"
+            android:label="Student ID"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.cybertronbiz.university.student_app.ReaderActivity"
+            android:label="NFC and QR code Scanner"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.cybertronbiz.university.student_app.Prediction.Main2Activity_Prediction"
+            android:label="Performace Prediction"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.cybertronbiz.university.student_app.Prediction.MainActivity_Prediction"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name="com.cybertronbiz.university.student_app.Authentication.FaceMicrosoftSample"
             android:label="Face Recognition"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Authentication.MainActivity"
+            android:name="com.cybertronbiz.university.student_app.Authentication.MainActivity"
             android:label="Authentication"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -61,7 +86,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.asus.nfc_qr_app.fileprovider"
+            android:authorities="com.cybertronbiz.university.student_app.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

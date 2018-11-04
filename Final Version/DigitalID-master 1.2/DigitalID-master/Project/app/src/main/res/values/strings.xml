@@ -4,13 +4,7 @@
     <string name="name">Name</string>
     <string name="id">Reg No</string>
     <string name="nic">NIC No</string>
-    <string name="photo">Photo</string>
-    <string name="pw">Password</string>
-    <string name="cpw">Confirm Password</string>
-    <string name="namehint">Bandara J.K.</string>
     <string name="regnohint">ITXXXXXXXX</string>
-    <string name="photoselect">Select Photo</string>
-    <string name="register">Register</string>
     <string name="title_activity_navigation">STUDENT APP</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -19,9 +13,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="welcomeapp">Welcome to Student App</string>
-    <string name="QRtitle">Student ID</string>
-    <string name="ButtonGen">Generate</string>
-    <string name="QRscanner">QR Code Scanner</string>
     <string name="QRbtn">Scan</string>
     <string name="courseweb">Visit<font color='#01C6DB'> courseweb.sliit.lk/login </font>on your computer and scan the QR code</string>
 </resources>
