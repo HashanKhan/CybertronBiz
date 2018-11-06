@@ -52,7 +52,7 @@ public class WriterActivity extends AppCompatActivity {
     DbHelper dbHelper = new DbHelper(this);
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
-    private String userurl = "http://192.168.8.101:8080/user/";
+    private String userurl = DBContract.SERVER_URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,7 +248,7 @@ public class WriterActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Log.i(TAG,"Inavalid User!!!");
+                    Log.i(TAG,"Not a Student!!!");
                     requestQueue.stop();
                 }
             }

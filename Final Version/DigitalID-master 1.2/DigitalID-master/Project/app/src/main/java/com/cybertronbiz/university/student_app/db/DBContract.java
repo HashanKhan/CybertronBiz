@@ -3,7 +3,7 @@ package com.cybertronbiz.university.student_app.db;
 public class DBContract {
     public static final int sync_status_ok = 0;
     public static final int sync_status_fail = 1;
-    public static final String SERVER_URL = "http://192.168.8.101:8080/user/";
+    public static final String SERVER_URL = "http://192.168.1.103:8080/user/";
 
 
     public static final String DATABASE_NAME = "cdap.db";

@@ -11,6 +11,7 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cybertronbiz.university.student_app.db.DBContract;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -38,14 +40,10 @@ public class ReaderActivity extends AppCompatActivity {
     private TextView textView;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
-    //private String usersurl = "http://192.168.8.100:8080/user/users";
-    private String userurl = "http://192.168.8.101:8080/user/";
+    private String userurl = DBContract.SERVER_URL;
     private String idnum;
     private TextView id;
-
     private ProgressBar progressBar;
-    private int progress = 0;
-    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +79,27 @@ public class ReaderActivity extends AppCompatActivity {
         else {
             Toast.makeText(this,"Sorry No NFC!!!",Toast.LENGTH_LONG).show();
         }
-    }
 
-    public void onProgress(){
-        new Thread(new Runnable() {
+        Thread thread = new Thread(){
             @Override
-            public void run() {
-                while (progress < 100){
-                    progress++;
-                    android.os.SystemClock.sleep(10);
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setProgress(progress);
-                        }
-                    });
+            public void run(){
+                while(!isInterrupted()){
+                    try {
+                        Thread.sleep(8000);  //1000ms = 1 sec
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                textView.setText("");
+                                id.setText("");
+                            }
+                        });
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        }).start();
+        };
+        thread.start();
     }
 
     //NFC Reader Part
@@ -108,8 +109,9 @@ public class ReaderActivity extends AppCompatActivity {
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)){
             Toast.makeText(this,"NFC Intent Recieved!",Toast.LENGTH_LONG).show();
-            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            progressBar.setVisibility(View.VISIBLE);
 
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
             Parcelable[] parcelables = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
 
             if (parcelables != null && parcelables.length > 0){
@@ -167,35 +169,10 @@ public class ReaderActivity extends AppCompatActivity {
             String regno = id.getText().toString();
             String url = userurl + regno;
             sendIdAndCheckValidity(url);
-            onProgress();
-            id.setText("");
         }else {
             Toast.makeText(this,"No NDEF records found!!!",Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*private void sendRequestAndPrintResponse() {
-        requestQueue = Volley.newRequestQueue(this);
-        stringRequest = new StringRequest(Request.Method.GET, usersurl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i(TAG,"Response :" + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(TAG,"Error :" + error.toString());
-            }
-        });
-
-        //10000 is the time in milliseconds adn is equal to 10 sec
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                50000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
-        requestQueue.add(stringRequest);
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -204,11 +181,11 @@ public class ReaderActivity extends AppCompatActivity {
             if (result.getContents() == null){
                 Toast.makeText(this,"You cancelled the scan!!!",Toast.LENGTH_LONG).show();
             }else {
+                progressBar.setVisibility(View.VISIBLE);
                 idnum = result.getContents();
+                id.setText(idnum);
                 String url = userurl + idnum;
                 sendIdAndCheckValidity(url);
-                onProgress();
-                id.setText("");
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -217,18 +194,21 @@ public class ReaderActivity extends AppCompatActivity {
 
     private void sendIdAndCheckValidity(final String url) {
         requestQueue = Volley.newRequestQueue(this);
+
         stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (url != null){
                     Log.i(TAG,"Response :" + response.toString());
-                    textView.setText("Valid User");
+                    textView.setText("Student");
                     requestQueue.stop();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
                 else {
                     Log.i(TAG,"Inavalid User!!!");
-                    textView.setText("Inavalid User!!!");
+                    textView.setText("Not a Student!!!");
                     requestQueue.stop();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         }, new Response.ErrorListener() {
@@ -237,6 +217,7 @@ public class ReaderActivity extends AppCompatActivity {
                 Log.i(TAG,"Error :" + error.toString());
                 textView.setText("Error!!!");
                 requestQueue.stop();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 

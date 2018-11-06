@@ -1,5 +1,6 @@
 package com.cybertronbiz.university.student_app;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -38,6 +39,7 @@ public class UserActivity extends AppCompatActivity {
     EditText editText;
     RecyclerView.LayoutManager layoutManager;
     RecyclerAdapter adapter;
+    ProgressDialog prog;
     ArrayList<User> arrayList = new ArrayList<>();
 
     @Override
@@ -52,10 +54,16 @@ public class UserActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editTextNum);
         adapter = new RecyclerAdapter(arrayList);
         recyclerView.setAdapter(adapter);
+        prog = new ProgressDialog(this);
         readFromLocaleStorage();
     }
 
     public void submitNumber(View view) {
+        prog.setTitle("Please Wait");
+        prog.setMessage("Your Account is being created.");
+        prog.setCanceledOnTouchOutside(true);
+        prog.show();
+
         String regno = editText.getText().toString();
         String url1 = DBContract.SERVER_URL + regno;
         readFromAppServer(url1);
@@ -82,6 +90,8 @@ public class UserActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         cursor.close();
         dbHelper.close();
+
+        prog.dismiss();
     }
 
     private void readFromAppServer(final String url1){

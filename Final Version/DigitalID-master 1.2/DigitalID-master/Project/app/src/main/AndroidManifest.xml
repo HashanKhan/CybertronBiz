@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name="com.cybertronbiz.university.student_app.UserActivity"
-            android:label="Admin Panel"
+            android:label="Student Account Setup"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
