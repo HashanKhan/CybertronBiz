@@ -1,4 +1,4 @@
-package com.cybertronbiz.university.student_app.db;
+package com.cybertronbiz.university.reader_app;
 
 public class DBContract {
     public static final int sync_status_ok = 0;

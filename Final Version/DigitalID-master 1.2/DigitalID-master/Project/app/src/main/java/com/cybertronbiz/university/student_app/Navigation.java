@@ -47,14 +47,9 @@ public class Navigation extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         //Database Section
         SQLiteDatabase db = dbHelper.getReadableDatabase(PASS_PHRASE);
         Cursor cursor = dbHelper.readFromLocaleDataBase(db);
-
-
-
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -127,7 +122,8 @@ public class Navigation extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent= new Intent(Navigation.this,UserActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -149,20 +145,15 @@ public class Navigation extends AppCompatActivity
                 Intent intent2= new Intent(Navigation.this,WriterActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.nav_Scan:
-                Intent intent3= new Intent(Navigation.this,ReaderActivity.class);
+            case R.id.nav_Prediction:
+                Intent intent3= new Intent(Navigation.this, Main2Activity_Prediction.class);
                 startActivity(intent3);
                 break;
-            case R.id.nav_Prediction:
-                Intent intent5= new Intent(Navigation.this, Main2Activity_Prediction.class);
-                startActivity(intent5);
-                break;
             case R.id.nav_Authentication:
-                Intent intent6= new Intent(Navigation.this, com.cybertronbiz.university.student_app.Authentication.MainActivity.class);
-                startActivity(intent6);
+                Intent intent4= new Intent(Navigation.this, com.cybertronbiz.university.student_app.Authentication.MainActivity.class);
+                startActivity(intent4);
                 break;
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

@@ -9,10 +9,6 @@
         android:id="@+id/nav_Gen"
         android:icon="@drawable/baseline_tap_and_play_24"
         android:title="My ID" />
-    <item
-        android:id="@+id/nav_Scan"
-        android:icon="@drawable/baseline_speaker_phone_black_24"
-        android:title="NFC and QR code Reader" />
 
     <item
         android:id="@+id/nav_Authentication"

@@ -39,28 +39,21 @@
         </activity>
         <activity
             android:name="com.cybertronbiz.university.student_app.UserActivity"
-            android:label="Student Account Setup"
+            android:label="@string/std_ac"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
 
         <activity
             android:name="com.cybertronbiz.university.student_app.WriterActivity"
-            android:label="Student ID"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
-        </activity>
-
-        <activity
-            android:name="com.cybertronbiz.university.student_app.ReaderActivity"
-            android:label="NFC and QR code Scanner"
+            android:label="@string/std_id"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
 
         <activity
             android:name="com.cybertronbiz.university.student_app.Prediction.Main2Activity_Prediction"
-            android:label="Performace Prediction"
+            android:label="@string/pfm_pre"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
@@ -73,13 +66,14 @@
 
         <activity
             android:name="com.cybertronbiz.university.student_app.Authentication.FaceMicrosoftSample"
-            android:label="Face Recognition"
+            android:label="@string/face_recog"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name="com.cybertronbiz.university.student_app.Authentication.MainActivity"
-            android:label="Authentication"
+            android:label="@string/authentication"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
