@@ -1,11 +1,14 @@
 package com.cybertronbiz.university.student_app;
 
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -16,6 +19,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,7 +101,13 @@ public class WriterActivity extends AppCompatActivity {
 
         idnum = id.getText().toString().trim();
         String url = userurl + idnum;
-        sendIdAndCheckValidity(url);
+
+        if (checkNetworkConnection()) {
+            sendIdAndCheckValidity(url);
+        }
+        else {
+            Toast.makeText(this,"Sorry, No Network Connection!!!",Toast.LENGTH_LONG).show();
+        }
 
         //NFC Section
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -227,6 +237,13 @@ public class WriterActivity extends AppCompatActivity {
         return  ndefMessage;
     }
 
+    //Check Network Connection
+    public boolean checkNetworkConnection(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
     //QR code generation request.
     private void sendIdAndCheckValidity(final String url) {
         requestQueue = Volley.newRequestQueue(this);
@@ -241,6 +258,7 @@ public class WriterActivity extends AppCompatActivity {
                         BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                         Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
                         image.setImageBitmap(bitmap);
+                        image.setVisibility(View.VISIBLE);
                         requestQueue.stop();
                     }catch (WriterException e){
                         e.printStackTrace();
@@ -249,6 +267,7 @@ public class WriterActivity extends AppCompatActivity {
                 }
                 else {
                     Log.i(TAG,"Not a Student!!!");
+                    Toast.makeText(getApplicationContext(),"Sorry, Not a Student",Toast.LENGTH_LONG).show();
                     requestQueue.stop();
                 }
             }
@@ -256,6 +275,7 @@ public class WriterActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG,"Error :" + error.toString());
+                Toast.makeText(getApplicationContext(),"Sorry, Not a Student",Toast.LENGTH_LONG).show();
                 requestQueue.stop();
             }
         });

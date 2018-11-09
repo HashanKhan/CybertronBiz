@@ -106,6 +106,8 @@ public class UserActivity extends AppCompatActivity {
                         }
                         else {
                             Log.i(TAG,"Not an Instance!!!");
+                            Toast.makeText(getApplicationContext(),"Sorry, Not a Student",Toast.LENGTH_LONG).show();
+                            prog.dismiss();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -115,12 +117,15 @@ public class UserActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i(TAG,"Error :" + error.toString());
+                    Toast.makeText(getApplicationContext(),"Sorry, Not a Student",Toast.LENGTH_LONG).show();
+                    prog.dismiss();
                 }
             });
             MySingleton.getInstance(UserActivity.this).addToRequestQue(jsonObjectRequest);
         }
         else {
-            Toast.makeText(this,"Sorry no Network Connection!!!",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Sorry, No Network Connection!!!",Toast.LENGTH_LONG).show();
+            prog.dismiss();
         }
     }
 

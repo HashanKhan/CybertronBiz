@@ -96,6 +96,12 @@ public class Navigation extends AppCompatActivity
         }
     }
 
+    //Dialog
+    public void openDialog(){
+        Dialog dialog = new Dialog();
+        dialog.show(getSupportFragmentManager(),"Dialog");
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -122,8 +128,7 @@ public class Navigation extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent= new Intent(Navigation.this,UserActivity.class);
-            startActivity(intent);
+            openDialog();
         }
 
         return super.onOptionsItemSelected(item);
@@ -138,8 +143,7 @@ public class Navigation extends AppCompatActivity
         switch (id){
 
             case R.id.nav_User:
-                Intent intent1= new Intent(Navigation.this,UserActivity.class);
-                startActivity(intent1);
+                openDialog();
                 break;
             case R.id.nav_Gen:
                 Intent intent2= new Intent(Navigation.this,WriterActivity.class);

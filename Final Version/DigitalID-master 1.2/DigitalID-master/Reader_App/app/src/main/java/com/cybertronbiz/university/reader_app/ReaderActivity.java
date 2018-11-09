@@ -41,6 +41,7 @@ public class ReaderActivity extends AppCompatActivity {
     private String idnum;
     private TextView id;
     private ProgressBar progressBar;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class ReaderActivity extends AppCompatActivity {
             Toast.makeText(this,"Sorry No NFC!!!",Toast.LENGTH_LONG).show();
         }
 
-        Thread thread = new Thread(){
+        thread = new Thread(){
             @Override
             public void run(){
                 while(!isInterrupted()){

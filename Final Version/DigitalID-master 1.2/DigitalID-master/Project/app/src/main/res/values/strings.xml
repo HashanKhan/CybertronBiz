@@ -18,5 +18,6 @@
     <string name="std_id">Student ID</string>
     <string name="pfm_pre">Performace Prediction</string>
     <string name="face_recog">Face Recognition</string>
+    <string name="pin">PIN:</string>
     <string name="courseweb">Visit<font color='#01C6DB'> courseweb.sliit.lk/login </font>on your computer and scan the QR code</string>
 </resources>
