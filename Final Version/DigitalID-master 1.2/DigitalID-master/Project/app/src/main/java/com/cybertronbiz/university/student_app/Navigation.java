@@ -64,7 +64,9 @@ public class Navigation extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.navName);
         TextView nav_ID = (TextView)hView.findViewById(R.id.navID);
-        ImageView imageView = (ImageView)hView.findViewById(R.id.userImage1);
+        //ImageView imageView = (ImageView)hView.findViewById(R.id.userImage1);
+
+        ImageView imageView1 = (ImageView)hView.findViewById(R.id.imageviewcircle);
 
         while (cursor.moveToNext()){
             usernameET = cursor.getString(cursor.getColumnIndex(DBContract.NAME));
@@ -77,7 +79,10 @@ public class Navigation extends AppCompatActivity
             nav_ID.setText(Num);
 
             Bitmap bitmap = StringToBitMap(photo);
-            imageView.setImageBitmap(bitmap);
+            //imageView.setImageBitmap(bitmap);
+
+            imageView1.setImageBitmap(bitmap);
+
         }
 
         cursor.close();

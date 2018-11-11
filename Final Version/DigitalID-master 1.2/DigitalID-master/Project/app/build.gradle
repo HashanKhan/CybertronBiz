@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.google.zxing:core:3.2.1'
     implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
     implementation 'net.zetetic:android-database-sqlcipher:3.5.7@aar'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //Bar chart dependancy
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -11,9 +14,11 @@ import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,26 +33,32 @@ import com.android.volley.toolbox.Volley;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 
 public class ReaderActivity extends AppCompatActivity {
     private static final String TAG = ReaderActivity.class.getName();
     NfcAdapter nfcAdapter;
     private Button button;
-    private TextView textView;
+    private TextView textView,textView1,id;
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
     private String userurl = DBContract.SERVER_URL;
     private String idnum;
-    private TextView id;
     private ProgressBar progressBar;
     private Thread thread;
+    private ImageView photo,draft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
         textView = (TextView) findViewById(R.id.textViewValidity);
+        textView1 = (TextView) findViewById(R.id.textViewValidity1);
+        photo = (ImageView) findViewById(R.id.imageViewUser);
+        draft = (ImageView) findViewById(R.id.imageView);
         button = (Button) findViewById(R.id.buttonQRscanner);
         progressBar = (ProgressBar) findViewById(R.id.progbar);
         final Activity activity = this;
@@ -83,12 +94,15 @@ public class ReaderActivity extends AppCompatActivity {
             public void run(){
                 while(!isInterrupted()){
                     try {
-                        Thread.sleep(5000);  //1000ms = 1 sec
+                        Thread.sleep(10000);  //1000ms = 1 sec
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                textView.setText("");
-                                id.setText("");
+                                textView.setVisibility(View.INVISIBLE);
+                                textView1.setVisibility(View.INVISIBLE);
+                                id.setVisibility(View.INVISIBLE);
+                                photo.setVisibility(View.INVISIBLE);
+                                draft.setVisibility(View.VISIBLE);
                             }
                         });
                     } catch (InterruptedException e) {
@@ -107,6 +121,7 @@ public class ReaderActivity extends AppCompatActivity {
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)){
             Toast.makeText(this,"NFC Intent Recieved!",Toast.LENGTH_LONG).show();
+            draft.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
 
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
@@ -179,14 +194,25 @@ public class ReaderActivity extends AppCompatActivity {
             if (result.getContents() == null){
                 Toast.makeText(this,"You cancelled the scan!!!",Toast.LENGTH_LONG).show();
             }else {
+                draft.setVisibility(View.INVISIBLE);
                 progressBar.setVisibility(View.VISIBLE);
                 idnum = result.getContents();
-                id.setText(idnum);
                 String url = userurl + idnum;
                 sendIdAndCheckValidity(url);
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
         }
     }
 
@@ -197,14 +223,37 @@ public class ReaderActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (url != null){
-                    Log.i(TAG,"Response :" + response.toString());
-                    textView.setText("Student");
-                    requestQueue.stop();
-                    progressBar.setVisibility(View.INVISIBLE);
+                    try {
+                        JSONObject data = new JSONObject(response);
+                        String pic = data.getString("photo");
+                        String idno = data.getString("regno");
+
+                        id.setText(idno);
+                        id.setVisibility(View.VISIBLE);
+
+                        Bitmap bm = StringToBitMap(pic);
+                        photo.setImageBitmap(bm);
+                        photo.setVisibility(View.VISIBLE);
+
+                        Log.i(TAG,"Response :" + response.toString());
+                        textView.setVisibility(View.VISIBLE);
+                        textView1.setVisibility(View.VISIBLE);
+                        textView1.setTextColor(Color.parseColor("#41DA30"));
+                        textView.setText("Student");
+                        textView1.setText("Verified");
+                        requestQueue.stop();
+                        progressBar.setVisibility(View.INVISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else {
                     Log.i(TAG,"Inavalid User!!!");
-                    textView.setText("Not a Student!!!");
+                    textView.setVisibility(View.VISIBLE);
+                    textView1.setVisibility(View.VISIBLE);
+                    textView1.setTextColor(Color.parseColor("#E32B2B"));
+                    textView.setText("Student");
+                    textView1.setText("Not - Verified");
                     requestQueue.stop();
                     progressBar.setVisibility(View.INVISIBLE);
                 }
@@ -213,7 +262,11 @@ public class ReaderActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG,"Error :" + error.toString());
-                textView.setText("Error!!!");
+                textView.setVisibility(View.VISIBLE);
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setTextColor(Color.parseColor("#E32B2B"));
+                textView.setText("Student");
+                textView1.setText("Not - Verified");
                 requestQueue.stop();
                 progressBar.setVisibility(View.INVISIBLE);
             }
